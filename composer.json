@@ -10,5 +10,9 @@
     }
   ],
   "require": {
+    "team-reflex/discord-php": "^5.1",
+    "krakjoe/pthreads-polyfill": "^1.1",
+    "ext-curl": "*",
+    "ext-json": "*"
   }
 }
