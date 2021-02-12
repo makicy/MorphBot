@@ -45,7 +45,7 @@ class DiscordThread extends \Thread
 		]);
 
 		$discord->on('ready', function(Discord $discord) {
-			$discord->getLoop()->addPeriodicTimer(20*60*5, function($timer) {
+			$discord->getLoop()->addPeriodicTimer(20*60*5, function() {
 				$this->analyze();
 			});
 

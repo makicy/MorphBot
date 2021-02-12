@@ -21,7 +21,7 @@ class Core extends PluginBase
 		$this->thread->start();
 
 		$server = $this->getServer();
-		$this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function(int $currentTick) use($server): void {
+		$this->getScheduler()->scheduleRepeatingTask(new ClosureTask(function() use($server): void {
 			foreach($this->thread->fetchMessages() as $message)
 				$server->broadcastMessage($message);
 		}), 10);
