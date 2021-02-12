@@ -1,0 +1,14 @@
+{
+  "name": "ribnil/morph-bot",
+  "description": "morph on DiscordPHP",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ribnil",
+      "role": ""
+    }
+  ],
+  "require": {
+  }
+}
