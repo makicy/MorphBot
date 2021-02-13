@@ -95,15 +95,15 @@ class DiscordThread extends \Thread
     }
 
     private function parse(): string {
-	    $subject = [];
-	    $predicate = [];
+    	$subject = [];
+    	$predicate = [];
     	$data = $this->queue["morph"];
 
     	foreach($data as $word_list) {
     		for($i=0; $i<count($word_list); $i++) {
     			$word = $word_list[$i][0];
-			    $next = $word_list[$i+1][0] ?? null;
-			    $next_class = $word_list[$i+1][1] ?? null;
+    			$next = $word_list[$i+1][0] ?? null;
+    			$next_class = $word_list[$i+1][1] ?? null;
 
     			switch($word_list[$i][1]) {
 				    case "名詞":
