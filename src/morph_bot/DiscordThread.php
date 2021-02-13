@@ -1,6 +1,8 @@
 <?php
 
+
 namespace morph_bot;
+
 
 use Discord\Discord;
 use Discord\WebSockets\Event;
@@ -13,6 +15,7 @@ define('BOT_TOKEN', '');
 
 define('GUILD_ID', '');
 define('MAIN_CHAT_CHANNEL_ID', '');
+
 
 class DiscordThread extends \Thread
 {
