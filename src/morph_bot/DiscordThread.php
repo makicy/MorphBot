@@ -23,7 +23,6 @@ class DiscordThread extends \Thread
     public function __construct(string $path, array $words) {
 	    $this->path = $path;
 
-	    $this->queue = new \Threaded();
 	    $this->queue["words"] = $words;
 	    $this->queue["morph"] = $this->analyze();
     }
