@@ -122,8 +122,10 @@ class DiscordThread extends \Thread
     	return array_unique($subject).array_unique($predicate);
     }
 
-	public function fetchWords(): Generator {
+	public function fetchWords(): array {
+    	$words = [];
 		foreach($this->queue["words"] as $word)
-			yield $word;
+			$words[] = $word;
+		return $words;
 	}
 }

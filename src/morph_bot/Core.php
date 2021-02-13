@@ -5,7 +5,6 @@ namespace morph_bot;
 
 use pocketmine\utils\Config;
 use pocketmine\plugin\PluginBase;
-use pocketmine\scheduler\ClosureTask;
 
 
 class Core extends PluginBase
