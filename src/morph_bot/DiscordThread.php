@@ -23,12 +23,12 @@ class DiscordThread extends \Thread
 	private $queue;
 	private $shutdown = false;
 
-    public function __construct(string $path, array $words) {
-	    $this->path = $path;
+	public function __construct(string $path, array $words) {
+		$this->path = $path;
 
-	    $this->queue["words"] = $words;
-	    $this->queue["morph"] = $this->analyze();
-    }
+		$this->queue["words"] = $words;
+		$this->queue["morph"] = $this->analyze();
+	}
 
 	public function shutdown() {
 		$this->shutdown = true;
@@ -74,56 +74,56 @@ class DiscordThread extends \Thread
 		$discord->run();
 	}
 
-    private function analyze(): array {
-	    $sentence = "";
-	    foreach($this->queue["words"] as $word)
-		    $sentence .= "。".$word;
+	private function analyze(): array {
+		$sentence = "";
+		foreach($this->queue["words"] as $word)
+			$sentence .= "。".$word;
 
-	    $data = array('app_id' => APP_ID, 'sentence' => $sentence);
-	    $curl = curl_init("https://labs.goo.ne.jp/api/morph");
+		$data = array('app_id' => APP_ID, 'sentence' => $sentence);
+		$curl = curl_init("https://labs.goo.ne.jp/api/morph");
 
-	    curl_setopt($curl, CURLOPT_POST, true);
-	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-	    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-	    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-	    curl_setopt($curl, CURLOPT_COOKIEFILE, 'tmp');
-	    curl_setopt($curl, CURLOPT_COOKIEJAR, 'cookie');
-	    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+		curl_setopt($curl, CURLOPT_POST, true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($curl, CURLOPT_COOKIEFILE, 'tmp');
+		curl_setopt($curl, CURLOPT_COOKIEJAR, 'cookie');
+		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
 
-	    return json_decode(curl_exec($curl), true)["word_list"];
-    }
+		return json_decode(curl_exec($curl), true)["word_list"];
+	}
 
-    private function parse(): string {
-    	$subject = [];
-    	$predicate = [];
-    	$data = $this->queue["morph"];
+	private function parse(): string {
+		$subject = [];
+		$predicate = [];
+		$data = $this->queue["morph"];
 
-    	foreach($data as $word_list) {
-    		for($i=0; $i<count($word_list); $i++) {
-    			$word = $word_list[$i][0];
-    			$next = $word_list[$i+1][0] ?? null;
-    			$next_class = $word_list[$i+1][1] ?? null;
+		foreach($data as $word_list) {
+			for($i=0; $i<count($word_list); $i++) {
+				$word = $word_list[$i][0];
+				$next = $word_list[$i+1][0] ?? null;
+				$next_class = $word_list[$i+1][1] ?? null;
 
-    			switch($word_list[$i][1]) {
-				    case "名詞":
-				    	$next_class === "名詞接尾辞" ? $subject[] = $word.$next : $subject[] = $word;
-				    	break;
-				    case "動詞語幹":
-					    $next_class === "動詞接尾辞" ? $predicate[] = $word.$next : $predicate[] = $word;
-					    break;
-				    case "形容詞語幹":
-					    $next_class === "形容詞接尾辞" ? $predicate[] = $word.$next : $predicate[] = $word;
-					    break;
-			    }
-		    }
- 	    }
+				switch($word_list[$i][1]) {
+					case "名詞":
+						$next_class === "名詞接尾辞" ? $subject[] = $word.$next : $subject[] = $word;
+						break;
+					case "動詞語幹":
+						$next_class === "動詞接尾辞" ? $predicate[] = $word.$next : $predicate[] = $word;
+						break;
+					case "形容詞語幹":
+						$next_class === "形容詞接尾辞" ? $predicate[] = $word.$next : $predicate[] = $word;
+						break;
+				}
+			}
+		}
 
-    	return array_unique($subject).array_unique($predicate);
-    }
+		return array_unique($subject).array_unique($predicate);
+	}
 
 	public function fetchWords(): array {
-    	$words = [];
+		$words = [];
 		foreach($this->queue["words"] as $word)
 			$words[] = $word;
 		return array_unique($words);
