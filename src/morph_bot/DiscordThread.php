@@ -122,7 +122,7 @@ class DiscordThread extends \Thread
     	return array_unique($subject).array_unique($predicate);
     }
 
-	public function fetchMessages(): Generator {
+	public function fetchWords(): Generator {
 		foreach($this->queue["words"] as $word)
 			yield $word;
 	}
