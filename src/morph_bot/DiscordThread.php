@@ -17,11 +17,13 @@ define('MAIN_CHAT_CHANNEL_ID', '');
 class DiscordThread extends \Thread
 {
 	private $path;
-	private $queue = [];
+	private $queue;
 	private $shutdown = false;
 
     public function __construct(string $path, array $words) {
 	    $this->path = $path;
+
+	    $this->queue = new \Threaded();
 	    $this->queue["words"] = $words;
 	    $this->queue["morph"] = $this->analyze();
     }
