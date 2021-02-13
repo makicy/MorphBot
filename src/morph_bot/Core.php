@@ -23,7 +23,7 @@ class Core extends PluginBase
 	public function onDisable(): void {
 		$this->thread->shutdown();
 
-		$this->config->set(0, array_values(array_unique($this->thread->fetchWords())));
+		$this->config->set(0, array_values($this->thread->fetchWords()));
 		$this->config->save();
 	}
 }

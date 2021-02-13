@@ -91,7 +91,7 @@ class DiscordThread extends \Thread
 	    curl_setopt($curl, CURLOPT_COOKIEJAR, 'cookie');
 	    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
 
-	    return json_decode(curl_exec($curl),true)["word_list"];
+	    return json_decode(curl_exec($curl), true)["word_list"];
     }
 
     private function parse(): string {
@@ -126,6 +126,6 @@ class DiscordThread extends \Thread
     	$words = [];
 		foreach($this->queue["words"] as $word)
 			$words[] = $word;
-		return $words;
+		return array_unique($words);
 	}
 }
